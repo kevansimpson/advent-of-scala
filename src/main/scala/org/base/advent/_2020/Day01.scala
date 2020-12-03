@@ -3,6 +3,7 @@ package org.base.advent._2020
 import org.base.advent.Reader
 
 /**
+  * <b>Part 1</b>
   * After saving Christmas five years in a row, you've decided to take a vacation at a nice resort on a tropical island.
   * Surely, Christmas will go on without you.
   *

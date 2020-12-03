@@ -11,7 +11,7 @@ object Day01Spec extends IdiomaticMockito {
   }
 }
 class Day01Spec extends AdventSpec {
-  "A Day01Spec" when {
+  "Day01" when {
     "practicing examples" should {
       "find the two entries that sum to 2020" in new Environment {
         day.findTwoEntriesWithTargetSum(example1, 2020) shouldEqual ((1721, 299))
