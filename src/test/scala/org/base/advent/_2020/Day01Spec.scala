@@ -14,10 +14,10 @@ class Day01Spec extends AdventSpec {
   "A Day01Spec" when {
     "practicing examples" should {
       "find the two entries that sum to 2020" in new Environment {
-        day.findTwoEntriesWithTargetSum(example1, 2020) shouldEqual (1721, 299)
+        day.findTwoEntriesWithTargetSum(example1, 2020) shouldEqual ((1721, 299))
       }
       "find the three entries that sum to 2020" in new Environment {
-        day.findThreeEntriesWithTargetSum(example1, 2020) shouldEqual (979, 366, 675)
+        day.findThreeEntriesWithTargetSum(example1, 2020) shouldEqual ((979, 366, 675))
       }
     }
 

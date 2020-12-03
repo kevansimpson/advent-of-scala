@@ -50,20 +50,21 @@ class Day01 extends Reader {
   private lazy val input = readNumbers("/2020/input01.txt")
 
   def findTwoEntriesWithTargetSum(entries: Seq[Int], target: Int): (Int, Int) = {
-    for (index <- 0 to (entries.size - 2))
-      for (j <- index + 1 until entries.size)
-        if (index != j && (entries(index) + entries(j)) == target) return (entries(index), entries(j))
-    (0, 0)
+    entries
+      .combinations(2)
+      .filter(combo => (combo.head + combo(1)) == target)
+      .map { case Seq(x, y) => (x, y) }
+      .toSeq
+      .head
   }
 
-  def findThreeEntriesWithTargetSum(entries: Seq[Int], target: Int): (Int, Int, Int) = {
-    for (index <- 0 to (entries.size - 3))
-      for (j <- index + 1 to (entries.size - 2))
-        for (k <- j + 1 until entries.size)
-          if (index != j && index != k && j != k && (entries(index) + entries(j) + entries(k)) == target)
-            return (entries(index), entries(j), entries(k))
-    (0, 0, 0)
-  }
+  def findThreeEntriesWithTargetSum(entries: Seq[Int], target: Int): (Int, Int, Int) =
+    entries
+      .combinations(3)
+      .filter(combo => (combo.head + combo(1) + combo(2)) == target)
+      .map { case Seq(x, y, z) => (x, y, z) }
+      .toSeq
+      .head
 
   def solvePart1: Int = {
     val answer: (Int, Int) = findTwoEntriesWithTargetSum(input, 2020)
