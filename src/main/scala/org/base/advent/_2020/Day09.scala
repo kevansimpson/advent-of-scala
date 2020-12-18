@@ -67,7 +67,8 @@ import org.base.advent.Reader
   * <b>What is the first number that does not have this property?</b>
   *
   * <b>Part 2</b>
-  * The final step in breaking the XMAS encryption relies on the invalid number you just found: you must find a contiguous set of at least two numbers in your list which sum to the invalid number from step 1.
+  * The final step in breaking the XMAS encryption relies on the invalid number you just found: you must find a
+  * contiguous set of at least two numbers in your list which sum to the invalid number from step 1.
   *
   * Again consider the above example:
   * <pre>see above</pre>
