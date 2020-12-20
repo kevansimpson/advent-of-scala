@@ -1,7 +1,7 @@
 package org.base.advent._2020
 
 import org.base.advent.Reader
-import org.base.advent.util.Point
+import org.base.advent.util.{Grid, Point}
 
 /**
   * <b>Part 1</b>
@@ -89,57 +89,28 @@ import org.base.advent.util.Point
   */
 class Day03 extends Reader {
   private lazy val input = readLines("/2020/input03.txt")
-  private lazy val theForest = Forest(input)
+  private lazy val theForest = Grid(input)
   private lazy val slopes = Seq((1, 1), (3, 1), (5, 1), (7, 1), (1, 2))
 
-  def compareSlopes(forest: Forest): Long = {
+  def compareSlopes(forest: Grid): Long = {
     slopes.foldLeft(1L)(_ * tobogganTrees(forest, _))
   }
 
-  def tobogganTrees(forest: Forest, slope: (Int, Int)): Long = {
+  def tobogganTrees(forest: Grid, slope: (Int, Int)): Long = {
     var treesHit = 0
     var point = new Point(0, 0)
     while (point.y < forest.height) {
       point = point.move(slope._1, slope._2)
       val modX = point.x % forest.width
       val modY = point.y % forest.height
-      if (forest.isTree(new Point(modX, modY))) treesHit += 1
+      if (isTree(forest, modX, modY)) treesHit += 1
     }
     treesHit
   }
 
+  def isTree(forest: Grid, x: Int, y: Int): Boolean = "#".equals(forest.area(y)(x))
+
   def solvePart1: Long = tobogganTrees(theForest, (3, 1))
 
   def solvePart2: Long = compareSlopes(theForest)
-}
-
-case class Forest(rows: Seq[String]) {
-  final val OPEN = "."
-  final val TREE = "#"
-
-  private val trees: (Array[Array[String]], Int, Int) = {
-    val height = rows.length
-    val width = rows.head.length
-    val grid = Array.ofDim[String](height, width)
-    rows.zipWithIndex.foreach {
-      case (row, y) => row.split("").zipWithIndex.foreach { case (col, x) => grid.apply(y).update(x, col) }
-    }
-    (grid, height, width)
-  }
-
-  def isTree(point: Point): Boolean = {
-    TREE.equals(trees._1(point.y)(point.x))
-  }
-
-  def height: Int = trees._2
-
-  def width: Int = trees._3
-
-  def show(): Unit = {
-    println(s"h: $height, w: $width")
-    for (row <- trees._1) {
-      for (cell <- row) print(cell)
-      println("")
-    }
-  }
 }

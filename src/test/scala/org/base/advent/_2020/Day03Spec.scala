@@ -2,6 +2,7 @@ package org.base.advent._2020
 
 import org.base.advent.AdventSpec
 import org.base.advent._2020.Day03Spec.Environment
+import org.base.advent.util.Grid
 import org.mockito.scalatest.IdiomaticMockito
 
 object Day03Spec extends IdiomaticMockito {
@@ -9,17 +10,17 @@ object Day03Spec extends IdiomaticMockito {
     val day = new Day03
     val example1: String =
       """..##.......
-                     |#...#...#..
-                     |.#....#..#.
-                     |..#.#...#.#
-                     |.#...##..#.
-                     |..#.##.....
-                     |.#.#.#....#
-                     |.#........#
-                     |#.##...#...
-                     |#...##....#
-                     |.#..#...#.#""".stripMargin
-    val forest: Forest = Forest(example1.split("\n").toSeq)
+        |#...#...#..
+        |.#....#..#.
+        |..#.#...#.#
+        |.#...##..#.
+        |..#.##.....
+        |.#.#.#....#
+        |.#........#
+        |#.##...#...
+        |#...##....#
+        |.#..#...#.#""".stripMargin
+    val forest: Grid = Grid(example1.split("\n").toSeq)
   }
 }
 
