@@ -23,7 +23,7 @@ class Day10Spec extends AdventSpec {
       }
       "count distinct arrangements" in new Environment {
         day.distinctArrangements(example1) shouldEqual 8
-//        day.distinctArrangements(example2) shouldEqual 19208
+        day.distinctArrangements(example2) shouldEqual 19208
       }
     }
 
@@ -32,7 +32,7 @@ class Day10Spec extends AdventSpec {
         day.solvePart1 shouldEqual 1917
       }
       "answer part 2" in new Environment {
-//        day.solvePart2 shouldEqual 23761694
+        day.solvePart2 shouldEqual 113387824750592L
       }
     }
   }

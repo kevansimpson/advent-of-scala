@@ -1,5 +1,7 @@
 package org.base.advent._2020
 
+//import scala.collection.mutable
+
 import org.base.advent.Reader
 
 /**
@@ -152,12 +154,70 @@ class Day10 extends Reader {
 
   def distinctArrangements(adapters: Seq[Int]): Long = {
     val max = adapters.max + 3
+    val sortedAdapters = adapters.+:(0).:+(max).sorted
+    part2(sortedAdapters)
+  }
+
+  // copied from https://github.com/blu3r4y/AdventOfLanguages2020/blob/main/src/day10.scala
+  def part2(jolts: Seq[Int]): Long = {
+    val diffs = diff(jolts)
+    val lengths = consecutive(diffs)
+    val perms = lengths.map(permutations)
+    perms.map(_.toLong).product
+  }
+
+  def consecutive(seq: Seq[Int]): Seq[Int] = {
+    for (vals <- split(seq) if vals.head == 1)
+      yield vals.length
+  }
+
+  def permutations(n: Int): Int = {
+    if (n < 2) 1 else tribonacci(n + 2)
+  }
+
+  def tribonacci(n: Int): Int = {
+    n match {
+      case 0 => 0
+      case 1 => 0
+      case 2 => 1
+      case _ => tribonacci(n - 1) + tribonacci(n - 2) + tribonacci(n - 3)
+    }
+  }
+
+  def diff(seq: Seq[Int]): Seq[Int] = {
+    (seq.drop(1) zip seq)
+      .map(t => t._1 - t._2)
+  }
+
+  def split(seq: Seq[Int]): List[List[Int]] = {
+    // itertools.groupby in Scala (https://stackoverflow.com/a/4763086/927377)
+    seq.foldRight(List[List[Int]]()) { (e, acc) =>
+      acc match {
+        case (`e` :: xs) :: fs => (e :: e :: xs) :: fs
+        case _ => List(e) :: acc
+      }
+    }
+  }
+
+  // my accurate but time consuming solutions
+  def distinctArrangements2(adapters: Seq[Int]): Long = {
+    val max = adapters.max + 3
     val sortedAdapters = adapters.sorted.:+(max)
-    val minLength = max / 3 + 1
-    (minLength to sortedAdapters.length + 1)
-      .flatMap(sortedAdapters.combinations)
-      .filter(_.contains(max))
-      .count(isValidArrangement(_))
+    arrange(sortedAdapters, max)
+//    val minLength = max / 3 + 1
+//    (minLength to sortedAdapters.length + 1)
+//      .flatMap(sortedAdapters.combinations)
+//      .filter(_.contains(max))
+//      .count(isValidArrangement(_))
+  }
+
+  def arrange(jolts: Seq[Int], max: Int, adapter: Int = 0): Long = {
+    if (adapter >= max) 1
+    else {
+      val foo = jolts.filter(j => j >= (adapter + 1) && j <= (adapter + 3))
+      //      println(foo)
+      foo.map(next => arrange(jolts, max, next)).sum
+    }
   }
 
   def isValidArrangement(codes: Seq[Int], index: Int = 0, value: Int = 0): Boolean = {
