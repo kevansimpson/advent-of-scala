@@ -149,14 +149,101 @@ import org.base.advent.util.{CLaw, Grid, Point}
   *
   * Given the same starting layout as above, these new rules cause the seating area to shift around as follows:
   * <pre>
-  *
+  * L.LL.LL.LL
+  * LLLLLLL.LL
+  * L.L.L..L..
+  * LLLL.LL.LL
+  * L.LL.LL.LL
+  * L.LLLLL.LL
+  * ..L.L.....
+  * LLLLLLLLLL
+  * L.LLLLLL.L
+  * L.LLLLL.LL
   * </pre>
+  *
   * <pre>
-  *
+  * #.##.##.##
+  * #######.##
+  * #.#.#..#..
+  * ####.##.##
+  * #.##.##.##
+  * #.#####.##
+  * ..#.#.....
+  * ##########
+  * #.######.#
+  * #.#####.##
   * </pre>
+  *
   * <pre>
-  *
+  * #.LL.LL.L#
+  * #LLLLLL.LL
+  * L.L.L..L..
+  * LLLL.LL.LL
+  * L.LL.LL.LL
+  * L.LLLLL.LL
+  * ..L.L.....
+  * LLLLLLLLL#
+  * #.LLLLLL.L
+  * #.LLLLL.L#
   * </pre>
+  *
+  * <pre>
+  * #.L#.##.L#
+  * #L#####.LL
+  * L.#.#..#..
+  * ##L#.##.##
+  * #.##.#L.##
+  * #.#####.#L
+  * ..#.#.....
+  * LLL####LL#
+  * #.L#####.L
+  * #.L####.L#
+  * </pre>
+  *
+  * <pre>
+  * #.L#.L#.L#
+  * #LLLLLL.LL
+  * L.L.L..#..
+  * ##LL.LL.L#
+  * L.LL.LL.L#
+  * #.LLLLL.LL
+  * ..L.L.....
+  * LLLLLLLLL#
+  * #.LLLLL#.L
+  * #.L#LL#.L#
+  * </pre>
+  *
+  * <pre>
+  * #.L#.L#.L#
+  * #LLLLLL.LL
+  * L.L.L..#..
+  * ##L#.#L.L#
+  * L.L#.#L.L#
+  * #.L####.LL
+  * ..#.#.....
+  * LLL###LLL#
+  * #.LLLLL#.L
+  * #.L#LL#.L#
+  * </pre>
+  *
+  * <pre>
+  * #.L#.L#.L#
+  * #LLLLLL.LL
+  * L.L.L..#..
+  * ##L#.#L.L#
+  * L.L#.LL.L#
+  * #.LLLL#.LL
+  * ..#.L.....
+  * LLL###LLL#
+  * #.LLLLL#.L
+  * #.L#LL#.L#
+  * </pre>
+  *
+  * Again, at this point, people stop shifting around and the seating area reaches equilibrium. Once this occurs,
+  * you count 26 occupied seats.
+  *
+  * Given the new visibility method and the rule change for occupied seats becoming empty, once equilibrium is reached,
+  * <b>how many seats end up occupied?</b>
   */
 class Day11 extends Reader {
   private lazy val input = readLines("/2020/input11.txt")
@@ -164,9 +251,7 @@ class Day11 extends Reader {
   private lazy val deltas = Seq((0, -1), (1, -1), (1, 0), (1, 1), (0, 1), (-1, 1), (-1, 0), (-1, -1))
 
   def findSeats(seats: Grid, occupied: Int = 0, fxn: CLaw => String = look): Long = {
-//    seats.show()
     val next = seats.translate(fxn)
-//    next.show()
     val seated = next.count("#".equals(_))
     if (seated == occupied) seated else findSeats(next, seated, fxn)
   }
