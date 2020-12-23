@@ -14,8 +14,6 @@ object Day12Spec extends IdiomaticMockito with LineSplitter {
               |F7
               |R90
               |F11""".stripMargin)
-    val example2: Seq[String] =
-      split("""""".stripMargin)
   }
 }
 
