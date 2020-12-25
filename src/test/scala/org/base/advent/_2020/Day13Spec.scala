@@ -11,8 +11,6 @@ object Day13Spec extends IdiomaticMockito with LineSplitter {
     val example1: Seq[String] =
       split("""939
               |7,13,x,x,59,x,31,19""".stripMargin)
-    val example2: Seq[String] =
-      split("""""".stripMargin)
   }
 }
 
