@@ -1,6 +1,6 @@
 package org.base.advent._2020
 
-import org.base.advent.Reader
+import org.base.advent.Reader._
 import org.base.advent.util.{CLaw, Grid, Point}
 
 /**
@@ -245,7 +245,7 @@ import org.base.advent.util.{CLaw, Grid, Point}
   * Given the new visibility method and the rule change for occupied seats becoming empty, once equilibrium is reached,
   * <b>how many seats end up occupied?</b>
   */
-class Day11 extends Reader {
+class Day11 {
   private lazy val input = readLines("/2020/input11.txt")
   private lazy val theSeats = Grid(input)
   private lazy val deltas = Seq((0, -1), (1, -1), (1, 0), (1, 1), (0, 1), (-1, 1), (-1, 0), (-1, -1))

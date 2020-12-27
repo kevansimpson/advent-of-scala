@@ -1,6 +1,6 @@
 package org.base.advent._2020
 
-import org.base.advent.Reader
+import org.base.advent.Reader._
 
 /**
   * <b>Part 1</b>
@@ -91,7 +91,7 @@ import org.base.advent.Reader
   *
   * For each group, count the number of questions to which everyone answered "yes". What is the sum of those counts?
   */
-class Day06 extends Reader {
+class Day06 {
   private lazy val input = readLines("/2020/input06.txt")
 
   type Answer = Seq[String] => Long

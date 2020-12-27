@@ -1,6 +1,6 @@
 package org.base.advent._2020
 
-import org.base.advent.Reader
+import org.base.advent.Reader._
 import org.base.advent.util.{Grid, Point}
 
 /**
@@ -87,7 +87,7 @@ import org.base.advent.util.{Grid, Point}
   *
   * What do you get if you multiply together the number of trees encountered on each of the listed slopes?
   */
-class Day03 extends Reader {
+class Day03 {
   private lazy val input = readLines("/2020/input03.txt")
   private lazy val theForest = Grid(input)
   private lazy val slopes = Seq((1, 1), (3, 1), (5, 1), (7, 1), (1, 2))

@@ -3,7 +3,7 @@ package org.base.advent._2020
 import java.math.BigInteger
 
 import org.apache.commons.lang3.StringUtils
-import org.base.advent.Reader
+import org.base.advent.Reader._
 
 /**
   * <b>Part 1</b>
@@ -129,7 +129,7 @@ import org.base.advent.Reader
   * Execute the initialization program using an emulator for a version 2 decoder chip. <b>What is the sum of all values
   * left in memory after it completes?</b>
   */
-class Day14 extends Reader {
+class Day14 {
   private lazy val input = readLines("/2020/input14.txt")
 
   private lazy val MaskDef = "mask = (.+)".r

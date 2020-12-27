@@ -1,6 +1,6 @@
 package org.base.advent._2020
 
-import org.base.advent.Reader
+import org.base.advent.Reader._
 
 /**
   * <b>Part 1</b>
@@ -108,7 +108,7 @@ import org.base.advent.Reader
   * Fix the program so that it terminates normally by changing exactly one jmp (to nop) or nop (to jmp). What is the
   * value of the accumulator after the program terminates?
   */
-class Day08 extends Reader {
+class Day08 {
   private lazy val input = readLines("/2020/input08.txt")
 
   private val INSTR = "(\\w{3}) (.+)".r

@@ -1,7 +1,7 @@
 package org.base.advent._2020
 
 import org.apache.commons.lang3.StringUtils
-import org.base.advent.Reader
+import org.base.advent.Reader._
 
 /**
   * <b>Part 1</b>
@@ -54,7 +54,7 @@ import org.base.advent.Reader
   *
   * How many passwords are valid according to the new interpretation of the policies?
   */
-class Day02 extends Reader {
+class Day02 {
   private lazy val input = readLines("/2020/input02.txt")
 
   private lazy val ValidPassword = "(\\d+)-(\\d+)\\s+(.+):\\s+(.+)".r
@@ -70,13 +70,9 @@ class Day02 extends Reader {
     )
   }
 
-  def solvePart1: Int = {
-    countValidPasswords(input, new CountPolicy)
-  }
+  def solvePart1: Int = countValidPasswords(input, new CountPolicy)
 
-  def solvePart2: Long = {
-    countValidPasswords(input, new PositionPolicy)
-  }
+  def solvePart2: Long = countValidPasswords(input, new PositionPolicy)
 }
 
 trait Policy {

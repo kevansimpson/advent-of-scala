@@ -1,6 +1,6 @@
 package org.base.advent._2020
 
-import org.base.advent.Reader
+import org.base.advent.Reader._
 import org.base.advent.util.Point
 
 /**
@@ -90,7 +90,7 @@ import org.base.advent.util.Point
   * and the ship's starting position?</b>
   *
   */
-class Day12 extends Reader {
+class Day12 {
   private lazy val input = readLines("/2020/input12.txt")
 
   type Dir = (Point, Int)

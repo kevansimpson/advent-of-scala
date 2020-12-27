@@ -9,7 +9,7 @@ import org.apache.commons.io.IOUtils
 import org.apache.commons.io.IOUtils._
 import org.apache.commons.lang3.math.NumberUtils
 
-trait Reader {
+object Reader {
   def readFile(filename: String): String = {
     resourceToString(filename, Charset.defaultCharset())
   }
@@ -41,5 +41,3 @@ trait Reader {
 //    return Stream.of(readInput(filename).split("\\s*,\\s*")).mapToInt(Integer::parseInt).toArray();
 //  }
 }
-
-case class SimpleReader() extends Reader {}

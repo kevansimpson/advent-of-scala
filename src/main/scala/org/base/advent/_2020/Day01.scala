@@ -1,6 +1,6 @@
 package org.base.advent._2020
 
-import org.base.advent.Reader
+import org.base.advent.Reader._
 
 /**
   * <b>Part 1</b>
@@ -47,7 +47,7 @@ import org.base.advent.Reader
   *
   * In your expense report, what is the product of the three entries that sum to 2020?
   */
-class Day01 extends Reader {
+class Day01 {
   private lazy val input = readNumbers("/2020/input01.txt")
 
   def findTwoEntriesWithTargetSum(entries: Seq[Int], target: Int): (Int, Int) = {

@@ -1,7 +1,7 @@
 package org.base.advent._2020
 
 import org.apache.commons.lang3.StringUtils
-import org.base.advent.Reader
+import org.base.advent.Reader._
 
 /**
   * <b>Part 1</b>
@@ -67,7 +67,7 @@ import org.base.advent.Reader
   *
   * What is the ID of your seat?
   */
-class Day05 extends Reader {
+class Day05 {
   private lazy val input = readLines("/2020/input05.txt")
 
   def highestSeatID(lines: Seq[String]): Long = {

@@ -1,6 +1,6 @@
 package org.base.advent._2020
 
-import org.base.advent.Reader
+import org.base.advent.Reader._
 
 /**
   * <b>Part 1</b>
@@ -138,7 +138,7 @@ import org.base.advent.Reader
   * Count the number of valid passports - those that have all required fields and valid values. Continue to treat cid as
   * optional. In your batch file, how many passports are valid?
   */
-class Day04 extends Reader {
+class Day04 {
   private lazy val input = readLines("/2020/input04.txt")
 
   type Validator = Map[String, String] => Boolean

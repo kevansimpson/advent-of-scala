@@ -1,6 +1,6 @@
 package org.base.advent._2020
 
-import org.base.advent.Reader
+import org.base.advent.Reader._
 
 /**
   * <b>Part 1</b>
@@ -81,7 +81,7 @@ import org.base.advent.Reader
   *
   * <b>What is the encryption weakness in your XMAS-encrypted list of numbers?</b>
   */
-class Day09 extends Reader {
+class Day09 {
   private lazy val input = readNumbers("/2020/input09.txt")
 
   def decodeXmas(codes: Seq[Int], preamble: Int = 25, index: Int = 0): Int = {

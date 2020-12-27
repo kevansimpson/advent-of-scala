@@ -1,8 +1,6 @@
 package org.base.advent._2020
 
-//import scala.collection.mutable
-
-import org.base.advent.Reader
+import org.base.advent.Reader._
 
 /**
   * <b>Part 1</b>
@@ -130,7 +128,7 @@ import org.base.advent.Reader
   *
   * <b>What is the total number of distinct ways you can arrange the adapters to connect the charging outlet to your device?</b>
   */
-class Day10 extends Reader {
+class Day10 {
   private lazy val input = readNumbers("/2020/input10.txt")
 
   def joltDiffs(adapters: Seq[Int]): (Int, Int, Int) = {
@@ -204,19 +202,12 @@ class Day10 extends Reader {
     val max = adapters.max + 3
     val sortedAdapters = adapters.sorted.:+(max)
     arrange(sortedAdapters, max)
-//    val minLength = max / 3 + 1
-//    (minLength to sortedAdapters.length + 1)
-//      .flatMap(sortedAdapters.combinations)
-//      .filter(_.contains(max))
-//      .count(isValidArrangement(_))
   }
 
   def arrange(jolts: Seq[Int], max: Int, adapter: Int = 0): Long = {
     if (adapter >= max) 1
     else {
-      val foo = jolts.filter(j => j >= (adapter + 1) && j <= (adapter + 3))
-      //      println(foo)
-      foo.map(next => arrange(jolts, max, next)).sum
+      jolts.filter(j => j >= (adapter + 1) && j <= (adapter + 3)).map(next => arrange(jolts, max, next)).sum
     }
   }
 

@@ -1,6 +1,6 @@
 package org.base.advent._2020
 
-import org.base.advent.Reader
+import org.base.advent.Reader._
 
 /**
   * <b>Part 1</b>
@@ -136,7 +136,7 @@ import org.base.advent.Reader
   * <b>What is the earliest timestamp such that all of the listed bus IDs depart at offsets matching their position
   * in the list?</b>
   */
-class Day13 extends Reader {
+class Day13 {
   private lazy val input = readLines("/2020/input13.txt")
 
   def takeBus(schedule: Seq[String]): Long = {

@@ -1,7 +1,7 @@
 package org.base.advent._2020
 
 import org.apache.commons.lang3.StringUtils
-import org.base.advent.Reader
+import org.base.advent.Reader._
 
 /**
   * <b>Part 1</b>
@@ -71,7 +71,7 @@ import org.base.advent.Reader
   *
   * How many individual bags are required inside your single shiny gold bag?
   */
-class Day07 extends Reader {
+class Day07 {
   private lazy val input = readLines("/2020/input07.txt")
 
   type BagQty = (String, Int)
