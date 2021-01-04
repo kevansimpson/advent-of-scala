@@ -2,10 +2,9 @@ package org.base.advent._2020
 
 import org.base.advent.AdventSpec
 import org.base.advent._2020.Day09Spec.Environment
-import org.base.advent.util.LineSplitter
 import org.mockito.scalatest.IdiomaticMockito
 
-object Day09Spec extends IdiomaticMockito with LineSplitter {
+object Day09Spec extends IdiomaticMockito {
   trait Environment {
     val day = new Day09
     val example1: Seq[Int] =
