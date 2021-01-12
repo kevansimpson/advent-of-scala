@@ -112,7 +112,7 @@ class Day16 {
     departures.filter(name => regex.matches(name._1)).values.map(_.toLong).product
   }
 
-  def resolveColumns(colMap: Map[String, Seq[Int]], result: Map[String, Int] = Map.empty): Map[String, Int] = {
+  def resolveColumns(colMap: Map[String, Seq[Int]], result: Map[String, Int] = Map.empty): Map[String, Int] =
     if (colMap.isEmpty) result
     else {
       val singleRest = colMap.groupBy(_._2.size == 1)
@@ -121,7 +121,6 @@ class Day16 {
         singleRest.getOrElse(false, Map.empty).map(entry => entry._1 -> entry._2.filter(_ != single._2.head))
       resolveColumns(rest, result + (single._1 -> single._2.head))
     }
-  }
 
   def solvePart1: Long = invalidTickets(input)
 

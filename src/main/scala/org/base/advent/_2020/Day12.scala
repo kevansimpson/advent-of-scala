@@ -97,11 +97,8 @@ class Day12 {
 
   private val Instruction = "([NSEWLRF])(\\d+)".r
 
-  def followDirections(directions: Seq[String]): Long = {
-    val pt = directions.foldLeft((Point.ORIGIN, 1))((loc, instruction) => step(loc, instruction))
-    println(pt)
-    Point.manhattan(pt._1)
-  }
+  def followDirections(directions: Seq[String]): Long =
+    Point.manhattan(directions.foldLeft((Point.ORIGIN, 1))((loc, instruction) => step(loc, instruction))._1)
 
   def followWaypoint(directions: Seq[String]): Long = {
     val pt = directions.foldLeft((Point.ORIGIN, Point(10, 1)))((shipWP, instruction) => {
@@ -133,7 +130,7 @@ class Day12 {
     Point.manhattan(pt._1)
   }
 
-  def step(loc: Dir, instruction: String): Dir = {
+  def step(loc: Dir, instruction: String): Dir =
     instruction match {
       case Instruction(vector, distance) =>
         val dist = distance.toInt
@@ -153,7 +150,6 @@ class Day12 {
             }
         }
     }
-  }
 
   def solvePart1: Long = followDirections(input)
 

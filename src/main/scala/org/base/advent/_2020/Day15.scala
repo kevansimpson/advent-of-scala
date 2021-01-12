@@ -63,20 +63,19 @@ class Day15 {
   def memoryGameGaveUp(numbers: Seq[Int]): Int = {
     val map: Map[Int, (Int, Int)] =
       numbers.zipWithIndex.map(num => num._1 -> ((num._2, -1))).toMap.removed(numbers.last)
-    val spoken = (numbers.size - 1 to 2020 - map.size).foldLeft((map, numbers.last))((memory, turn) => {
-      val (mem, lastSpoken) = memory
-      val last2seen = mem.getOrElse(lastSpoken, (-1, -1))
-      val next = if (last2seen._1 < 0) (turn, -1) else (turn, last2seen._1)
-      // println(s"$last2seen ===> $next ===> $lastSpoken")
-      (mem + (lastSpoken -> next), if (last2seen._1 < 0) 0 else next._1 - next._2)
-    })
-
-    spoken._2
+    (numbers.size - 1 to 2020 - map.size)
+      .foldLeft((map, numbers.last))((memory, turn) => {
+        val (mem, lastSpoken) = memory
+        val last2seen = mem.getOrElse(lastSpoken, (-1, -1))
+        val next = if (last2seen._1 < 0) (turn, -1) else (turn, last2seen._1)
+        (mem + (lastSpoken -> next), if (last2seen._1 < 0) 0 else next._1 - next._2)
+      })
+      ._2
   }
 
   // more math; shrug
   // thanks to https://github.com/konkit/AdventOfCode2020/blob/master/15/src/main/scala/tech/konkit/adventofcode/FifteenTwo.scala
-  def memoryGame(queue: Seq[Int], target: Int = 2020): Int = {
+  def memoryGame(queue: Seq[Int], target: Int = 2020): Int =
     runIteration(
       isFirstRun = true,
       currentElement = ValueWithIndex(queue.last, queue.length - 1),
@@ -84,7 +83,6 @@ class Day15 {
       targetCount = target,
       count = queue.length
     )
-  }
 
   @tailrec
   private def runIteration(
@@ -93,11 +91,7 @@ class Day15 {
       map: Map[Int, List[Int]],
       targetCount: Int,
       count: Int
-  ): Int = {
-//    if (count % 5000000 == 0) {
-//      println(s"Queue length: $count")
-//    }
-
+  ): Int =
     if (count == targetCount) {
       currentElement.value
     } else {
@@ -114,7 +108,6 @@ class Day15 {
         runIteration(isFirstRun = false, newElement, newMap, targetCount, count + 1)
       }
     }
-  }
 
   private def updatedMap(queueLength: Int, map: Map[Int, List[Int]], currentElement: ValueWithIndex) = {
     val newList = (queueLength - 1) :: map.getOrElse(currentElement.value, List.empty)
@@ -126,11 +119,8 @@ class Day15 {
 
   private def getDifferenceOfPreviousTwoValues(map: Map[Int, List[Int]], currentElement: ValueWithIndex) = {
     val twoPreviousIndices = map(currentElement.value).take(2)
-    if (twoPreviousIndices.length == 2) {
-      twoPreviousIndices.head - twoPreviousIndices.last
-    } else {
-      twoPreviousIndices.head
-    }
+    if (twoPreviousIndices.length == 2) twoPreviousIndices.head - twoPreviousIndices.last
+    else twoPreviousIndices.head
   }
 
   case class ValueWithIndex(value: Int, index: Int)

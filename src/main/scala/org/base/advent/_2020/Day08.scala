@@ -113,7 +113,7 @@ class Day08 {
 
   private val INSTR = "(\\w{3}) (.+)".r
 
-  def terminateLoop(code: Seq[String]): Int = {
+  def terminateLoop(code: Seq[String]): Int =
     code.indices
       .map(index => {
         if (code(index).startsWith("jmp")) {
@@ -125,14 +125,13 @@ class Day08 {
       .toMap
       .values
       .max
-  }
 
   def gameOn(
       code: Seq[String],
       index: Int = 0,
       accumulator: Int = 0,
       visited: Set[Int] = Set.empty[Int]
-  ): (Int, Set[Int]) = {
+  ): (Int, Set[Int]) =
     if (index >= code.length) (accumulator, Set.empty[Int])
     else if (visited.contains(index)) (accumulator, visited)
     else
@@ -144,10 +143,8 @@ class Day08 {
             case "jmp" => gameOn(code, arg.toInt + index, accumulator, visited + index)
           }
       }
-  }
 
   def solvePart1: Long = gameOn(input)._1
 
   def solvePart2: Long = terminateLoop(input)
-
 }

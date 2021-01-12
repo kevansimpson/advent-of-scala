@@ -137,17 +137,19 @@ class Day14 {
   type Mem = (String, Map[Long, Long])
   type WriteMem = (Mem, Long, Long) => Mem
 
-  def dockFerry(program: Seq[String], writeMem: WriteMem = writeValue): Long = {
-    val memory = program.foldLeft(("", Map.empty[Long, Long]))((maskMemory, line) => {
-      line match {
-        case MaskDef(mask) => (mask, maskMemory._2)
-        case WriteValue(address, value) => writeMem(maskMemory, address.toLong, value.toLong)
-      }
-    })
-    memory._2.values.sum
-  }
+  def dockFerry(program: Seq[String], writeMem: WriteMem = writeValue): Long =
+    program
+      .foldLeft(("", Map.empty[Long, Long]))((maskMemory, line) => {
+        line match {
+          case MaskDef(mask) => (mask, maskMemory._2)
+          case WriteValue(address, value) => writeMem(maskMemory, address.toLong, value.toLong)
+        }
+      })
+      ._2
+      .values
+      .sum
 
-  def writeValue(maskMemory: Mem, address: Long, value: Long): Mem = {
+  def writeValue(maskMemory: Mem, address: Long, value: Long): Mem =
     writeToAddr(
       maskMemory,
       address,
@@ -161,7 +163,6 @@ class Day14 {
         })
         .mkString
     )
-  }
 
   def writeValueV2(maskMemory: Mem, address: Long, value: Long): Mem = {
     val bits = toBits(address)
@@ -177,11 +178,10 @@ class Day14 {
     (maskMemory._1, maskMemory._2 ++ resolveAddr(bits).map(_ -> value).toMap)
   }
 
-  def resolveAddr(address: String): Seq[Long] = {
+  def resolveAddr(address: String): Seq[Long] =
     if (address.contains("X"))
       resolveAddr(address.replaceFirst("X", "0")) ++ resolveAddr(address.replaceFirst("X", "1"))
     else Seq(bits2long(address))
-  }
 
   private def writeToAddr(maskMemory: Mem, address: Long, bits: String) =
     (maskMemory._1, maskMemory._2 + (address -> bits2long(bits)))

@@ -436,9 +436,7 @@ class Day17 {
     (0 until 6).foldLeft(toPoints(rows))((points, _) => cycle(points)).size
   }
 
-  def simulate4(rows: Seq[String]): Long = {
-    (0 until 6).foldLeft(to4Points(rows))((points, _) => cycle4(points)).size
-  }
+  def simulate4(rows: Seq[String]): Long = (0 until 6).foldLeft(to4Points(rows))((points, _) => cycle4(points)).size
 
   def cycle(points: Seq[P3]): Seq[P3] = {
     val edges = toEdges(points)
@@ -466,13 +464,12 @@ class Day17 {
     })
   }
 
-  def activate[A](here: A, points: Seq[A], surround: A => Seq[A]): (A, String) = {
+  def activate[A](here: A, points: Seq[A], surround: A => Seq[A]): (A, String) =
     (here, surround(here).intersect(points).size match {
       case 3 => "#"
       case 2 => if (points.contains(here)) "#" else "."
       case _ => "."
     })
-  }
 
   def show(points: Seq[P3]): Unit = {
     val edges = toEdges(points)
@@ -494,27 +491,24 @@ class Day17 {
   def to4Edges(points: Seq[P4]): Edges4 =
     Edges4(minMax(points.map(_.x)), minMax(points.map(_.y)), minMax(points.map(_.z)), minMax(points.map(_.w)))
 
-  def cube(pt: P3): Seq[P3] = {
+  def cube(pt: P3): Seq[P3] =
     (-1 to 1)
       .flatMap(z => (-1 to 1).flatMap(y => (-1 to 1).map(x => P3(pt.x + x, pt.y + y, pt.z + z))))
       .filter(!pt.equals(_))
-  }
 
-  def cube4d(pt: P4): Seq[P4] = {
+  def cube4d(pt: P4): Seq[P4] =
     (-1 to 1)
       .flatMap(z =>
         (-1 to 1)
           .flatMap(y => (-1 to 1).flatMap(x => (-1 to 1).map(w => P4(pt.x + x, pt.y + y, pt.z + z, pt.w + w))))
           .filter(!pt.equals(_))
       )
-  }
 
-  def toPoints(rows: Seq[String]): Seq[P3] = {
+  def toPoints(rows: Seq[String]): Seq[P3] =
     rows.zipWithIndex.flatMap(rowY => {
       val (row, y) = rowY
       row.split("").zipWithIndex.map(colX => if ("#".equals(colX._1)) P3(colX._2, y, 0) else null).filter(_ != null)
     })
-  }
 
   def to4Points(rows: Seq[String]): Seq[P4] = toPoints(rows).map(pt => P4(pt.x, pt.y, pt.z, 0))
 
@@ -522,16 +516,16 @@ class Day17 {
 
   def solvePart2: Long = simulate4(input)
 
-  case class P3(x: Int, y: Int, z: Int)
-  case class P4(x: Int, y: Int, z: Int, w: Int)
+  case class P3(x: Long, y: Long, z: Long)
+  case class P4(x: Long, y: Long, z: Long, w: Long)
 
   trait BaseEdge {
-    def xEdge: MinMax[Int]
-    def yEdge: MinMax[Int]
-    def zEdge: MinMax[Int]
+    def xEdge: MinMax
+    def yEdge: MinMax
+    def zEdge: MinMax
   }
 
-  case class Edges(xEdge: MinMax[Int], yEdge: MinMax[Int], zEdge: MinMax[Int]) extends BaseEdge
+  case class Edges(xEdge: MinMax, yEdge: MinMax, zEdge: MinMax) extends BaseEdge
 
-  case class Edges4(xEdge: MinMax[Int], yEdge: MinMax[Int], zEdge: MinMax[Int], wEdge: MinMax[Int]) extends BaseEdge
+  case class Edges4(xEdge: MinMax, yEdge: MinMax, zEdge: MinMax, wEdge: MinMax) extends BaseEdge
 }

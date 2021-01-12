@@ -131,30 +131,21 @@ import org.base.advent.Reader._
 class Day10 {
   private lazy val input = readNumbers("/2020/input10.txt")
 
-  def joltDiffs(adapters: Seq[Int]): (Int, Int, Int) = {
-    val max = adapters.max + 3
+  def joltDiffs(adapters: Seq[Int]): Seq[Int] =
     adapters
-      .:+(max)
+      .:+(adapters.max + 3)
       .sorted
-      .foldLeft((0, 0, 0))((result, value) =>
-        value - result._1 match {
-          case 1 => (value, 1 + result._2, result._3)
-          case 3 => (value, result._2, 1 + result._3)
-          case _ => (value, result._2, result._3)
+      .foldLeft(Seq.empty[Int])((result, value) =>
+        value - result.head match {
+          case 1 => Seq(value, 1 + result(1), result(2))
+          case 3 => Seq(value, result(1), 1 + result(2))
+          case _ => Seq(value, result(1), result(2))
         }
       )
-  }
 
-  def joltProduct(adapters: Seq[Int]): Int = {
-    val diffs = joltDiffs(adapters)
-    diffs._2 * diffs._3
-  }
+  def joltProduct(adapters: Seq[Int]): Int = joltDiffs(adapters).product
 
-  def distinctArrangements(adapters: Seq[Int]): Long = {
-    val max = adapters.max + 3
-    val sortedAdapters = adapters.+:(0).:+(max).sorted
-    part2(sortedAdapters)
-  }
+  def distinctArrangements(adapters: Seq[Int]): Long = part2(adapters.+:(0).:+(adapters.max + 3).sorted)
 
   // copied from https://github.com/blu3r4y/AdventOfLanguages2020/blob/main/src/day10.scala
   def part2(jolts: Seq[Int]): Long = {
@@ -164,14 +155,9 @@ class Day10 {
     perms.map(_.toLong).product
   }
 
-  def consecutive(seq: Seq[Int]): Seq[Int] = {
-    for (vals <- split(seq) if vals.head == 1)
-      yield vals.length
-  }
+  def consecutive(seq: Seq[Int]): Seq[Int] = for (values <- split(seq) if values.head == 1) yield values.length
 
-  def permutations(n: Int): Int = {
-    if (n < 2) 1 else tribonacci(n + 2)
-  }
+  def permutations(n: Int): Int = if (n < 2) 1 else tribonacci(n + 2)
 
   def tribonacci(n: Int): Int = {
     n match {
@@ -182,10 +168,7 @@ class Day10 {
     }
   }
 
-  def diff(seq: Seq[Int]): Seq[Int] = {
-    (seq.drop(1) zip seq)
-      .map(t => t._1 - t._2)
-  }
+  def diff(seq: Seq[Int]): Seq[Int] = (seq.drop(1) zip seq).map(t => t._1 - t._2)
 
   def split(seq: Seq[Int]): List[List[Int]] = {
     // itertools.groupby in Scala (https://stackoverflow.com/a/4763086/927377)

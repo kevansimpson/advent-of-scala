@@ -70,24 +70,18 @@ import org.base.advent.Reader._
 class Day05 {
   private lazy val input = readLines("/2020/input05.txt")
 
-  def highestSeatID(lines: Seq[String]): Long = {
-    lines.map(toSeatID).map(seat2int).max
-  }
+  def highestSeatID(lines: Seq[String]): Long = lines.map(toSeatID).map(seat2int).max
 
   def mySeatID(lines: Seq[String]): Long = {
     val seat = lines.map(toSeatID).sorted.groupBy(_._1).filter(_._2.size == 7)
-    val row = seat.head._1
-    val col = (0 to 7).sum - seat.values.map(_.map(_._2)).head.sum
-    seat2int((row, col))
+    seat2int((seat.head._1, (0 to 7).sum - seat.values.map(_.map(_._2)).head.sum))
   }
 
-  def toSeatID(seat: String): (Int, Int) = {
-    (partition(seat.substring(0, 7)), partition(seat.substring(7)))
-  }
+  def toSeatID(seat: String): (Int, Int) = (partition(seat.substring(0, 7)), partition(seat.substring(7)))
 
   def seat2int(tpl: (Int, Int)): Long = tpl._1 * 8 + tpl._2
 
-  def partition(seat: String, start: Int = 0): Int = {
+  def partition(seat: String, start: Int = 0): Int =
     if (StringUtils.isEmpty(seat)) start
     else {
       val delta = math.pow(2, seat.length - 1).toInt
@@ -96,7 +90,6 @@ class Day05 {
         case _ => partition(seat.substring(1), start)
       }
     }
-  }
 
   def solvePart1: Long = highestSeatID(input)
 

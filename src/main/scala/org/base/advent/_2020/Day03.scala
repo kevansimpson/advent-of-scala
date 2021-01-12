@@ -92,9 +92,7 @@ class Day03 {
   private lazy val theForest = Grid(input)
   private lazy val slopes = Seq((1, 1), (3, 1), (5, 1), (7, 1), (1, 2))
 
-  def compareSlopes(forest: Grid): Long = {
-    slopes.foldLeft(1L)(_ * tobogganTrees(forest, _))
-  }
+  def compareSlopes(forest: Grid): Long = slopes.foldLeft(1L)(_ * tobogganTrees(forest, _))
 
   def tobogganTrees(forest: Grid, slope: (Int, Int)): Long = {
     var treesHit = 0

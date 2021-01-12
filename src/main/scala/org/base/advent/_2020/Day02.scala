@@ -2,6 +2,7 @@ package org.base.advent._2020
 
 import org.apache.commons.lang3.StringUtils
 import org.base.advent.Reader._
+import org.base.advent.util.MinMax
 
 /**
   * <b>Part 1</b>
@@ -62,10 +63,9 @@ class Day02 {
   def countValidPasswords(list: Seq[String], policy: Policy): Int = {
     list.count(str =>
       str match {
-        case ValidPassword(min, max, target, password) => policy.apply(min.toInt, max.toInt, target, password)
-        case _ =>
-          println("No Match: ".concat(str))
-          false
+        case ValidPassword(min, max, target, password) =>
+          policy.apply(MinMax(min.toInt, max.toInt), target, password)
+        case _ => false
       }
     )
   }
@@ -76,18 +76,18 @@ class Day02 {
 }
 
 trait Policy {
-  def apply(min: Int, max: Int, target: String, password: String): Boolean
+  def apply(minMax: MinMax, target: String, password: String): Boolean
 }
 
 case class CountPolicy() extends Policy {
-  override def apply(min: Int, max: Int, target: String, password: String): Boolean = {
-    val valid: Int = StringUtils.countMatches(password, target)
-    valid >= min.toInt && valid <= max.toInt
-  }
+  override def apply(minMax: MinMax, target: String, password: String): Boolean =
+    minMax.includes(StringUtils.countMatches(password, target))
 }
 
 case class PositionPolicy() extends Policy {
-  override def apply(min: Int, max: Int, target: String, password: String): Boolean = {
-    password.charAt(min - 1).toString.equals(target) ^ password.charAt(max - 1).toString.equals(target)
-  }
+  override def apply(minMax: MinMax, target: String, password: String): Boolean =
+    password.charAt(minMax.min.toInt - 1).toString.equals(target) ^ password
+      .charAt(minMax.max.toInt - 1)
+      .toString
+      .equals(target)
 }

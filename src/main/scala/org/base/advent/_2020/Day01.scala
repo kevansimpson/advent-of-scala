@@ -50,30 +50,24 @@ import org.base.advent.Reader._
 class Day01 {
   private lazy val input = readNumbers("/2020/input01.txt")
 
-  def findTwoEntriesWithTargetSum(entries: Seq[Int], target: Int): (Int, Int) = {
+  def findTwoEntriesWithTargetSum(entries: Seq[Int], target: Int): Seq[Int] = {
     entries
       .combinations(2)
       .filter(combo => (combo.head + combo(1)) == target)
-      .map { case Seq(x, y) => (x, y) }
+      .map { case Seq(x, y) => Seq(x, y) }
       .toSeq
       .head
   }
 
-  def findThreeEntriesWithTargetSum(entries: Seq[Int], target: Int): (Int, Int, Int) =
+  def findThreeEntriesWithTargetSum(entries: Seq[Int], target: Int): Seq[Int] =
     entries
       .combinations(3)
       .filter(combo => (combo.head + combo(1) + combo(2)) == target)
-      .map { case Seq(x, y, z) => (x, y, z) }
+      .map { case Seq(x, y, z) => Seq(x, y, z) }
       .toSeq
       .head
 
-  def solvePart1: Int = {
-    val answer: (Int, Int) = findTwoEntriesWithTargetSum(input, 2020)
-    answer._1 * answer._2
-  }
+  def solvePart1: Int = findTwoEntriesWithTargetSum(input, 2020).product
 
-  def solvePart2: Long = {
-    val answer: (Int, Int, Int) = findThreeEntriesWithTargetSum(input, 2020)
-    answer._1 * answer._2 * answer._3
-  }
+  def solvePart2: Long = findThreeEntriesWithTargetSum(input, 2020).product
 }

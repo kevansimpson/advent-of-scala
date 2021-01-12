@@ -113,9 +113,8 @@ class Day07 {
     }
   }
 
-  def processLuggage(lines: Seq[String]): BagMap = {
+  def processLuggage(lines: Seq[String]): BagMap =
     lines.map { case RULE(color, contents) => color -> splitBags(contents) }.toMap
-  }
 
   def splitBags(contents: String): Seq[(String, Int)] =
     contents

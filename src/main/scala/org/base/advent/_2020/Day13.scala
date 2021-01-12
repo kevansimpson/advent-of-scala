@@ -145,9 +145,7 @@ class Day13 {
     (earliest - ts) * theBus
   }
 
-  def winContest(schedule: Seq[String]): Long = {
-    remainderTheorem(schedule(1)) // math... rolls eyes
-  }
+  def winContest(schedule: Seq[String]): Long = remainderTheorem(schedule(1)) // math... rolls eyes
 
   // https://github.com/GaalDornick/AdventOfCodeSolutions/blob/main/src/adventofcode/year2020/day13/Day13.scala
   def remainderTheorem(schedule: String): Long = {

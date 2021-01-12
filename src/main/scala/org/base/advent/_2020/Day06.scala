@@ -93,10 +93,9 @@ import org.base.advent.Reader._
   */
 class Day06 {
   private lazy val input = readLines("/2020/input06.txt")
+  private lazy val letters = ('a' to 'z').map(_.toString).toSet
 
-  type Answer = Seq[String] => Long
-
-  def sumQuestions(lines: Seq[String], answers: Answer): Long = {
+  def sumQuestions(lines: Seq[String], answers: Seq[String] => Long): Long = {
     if (lines.isEmpty) 0L
     else {
       val span = lines.span(!_.isEmpty)
@@ -104,15 +103,9 @@ class Day06 {
     }
   }
 
-  def anyAnswer(answers: Seq[String]): Long = {
-    answers.foldLeft(Set.empty[String])(_ concat _.split("")).size
-  }
+  def anyAnswer(answers: Seq[String]): Long = answers.foldLeft(Set.empty[String])(_ concat _.split("")).size
 
-  private lazy val letters = ('a' to 'z').map(_.toString).toSet
-
-  def everyAnswer(answers: Seq[String]): Long = {
-    answers.foldLeft(letters)(_ intersect _.split("").toSet).size
-  }
+  def everyAnswer(answers: Seq[String]): Long = answers.foldLeft(letters)(_ intersect _.split("").toSet).size
 
   def solvePart1: Long = sumQuestions(input, anyAnswer)
 

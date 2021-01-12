@@ -185,12 +185,10 @@ class Day19 {
     valid(Messages(updated, messages.received))
   }
 
-  def valid(messages: Messages): Long = {
-    val regex = toRegex(messages.rules.getOrElse("0", "nope"), messages.rules).r
-    messages.received.count(regex.matches(_))
-  }
+  def valid(messages: Messages): Long =
+    messages.received.count(toRegex(messages.rules.getOrElse("0", "nope"), messages.rules).r.matches(_))
 
-  def toRegex(expr: String, rules: Rules): String = {
+  def toRegex(expr: String, rules: Rules): String =
     if (expr.contains(" "))
       expr
         .split("\\s")
@@ -201,7 +199,6 @@ class Day19 {
         .mkString
     else if (rules.contains(expr)) s"(${toRegex(rules.getOrElse(expr, "x"), rules)})"
     else rules.getOrElse(expr, expr).replaceAll("\"", "")
-  }
 
   def receive(input: Seq[String]): Messages = {
     val span = input.span(_.nonEmpty)

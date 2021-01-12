@@ -89,7 +89,7 @@ class Day18 {
 
   def sumExpressions(expressions: Seq[String], math: Math): Long = expressions.map(math).sum
 
-  def newMath(expr: String): Long = {
+  def newMath(expr: String): Long =
     expr match {
       case HasParens(before, middle, after) => newMath(before.concat(newMath(middle).toString).concat(after))
       case NextOp(rest, op, value) =>
@@ -99,9 +99,8 @@ class Day18 {
         }
       case _ => expr.toLong
     }
-  }
 
-  def advancedMath(expr: String): Long = {
+  def advancedMath(expr: String): Long =
     expr match {
       case HasParens(before, middle, after) => advancedMath(before.concat(advancedMath(middle).toString).concat(after))
       case Add(left, right) => advancedMath(left) + advancedMath(right)
@@ -113,7 +112,6 @@ class Day18 {
         }
       case _ => expr.toLong
     }
-  }
 
   def solvePart1: Long = sumExpressions(input, newMath)
 

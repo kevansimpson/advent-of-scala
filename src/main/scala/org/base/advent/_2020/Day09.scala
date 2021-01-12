@@ -95,15 +95,13 @@ class Day09 {
     val target = decodeXmas(codes, preamble)
     val longCodes = codes.map(_.toLong)
     val range = (4 to 17).map(findRange(longCodes, target, 0, _)).filter(_.nonEmpty).head
-    println(range)
     range.min + range.max
   }
 
-  def findRange(codes: Seq[Long], target: Long, index: Int = 0, length: Int = 2): Seq[Long] = {
+  def findRange(codes: Seq[Long], target: Long, index: Int = 0, length: Int = 2): Seq[Long] =
     if ((index + length) >= codes.length) Seq.empty[Long]
     else if (codes.slice(index, index + length).sum == target) codes.slice(index, index + length)
     else findRange(codes, target, index + 1, length)
-  }
 
   def solvePart1: Long = decodeXmas(input)
 

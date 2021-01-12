@@ -158,46 +158,41 @@ class Day04 {
   private final val EYE_COLORS = Seq("amb", "blu", "brn", "gry", "grn", "hzl", "oth")
   private final val PASSPORT = "(\\d{9})".r
 
-  def validate(password: Map[String, String]): Boolean = {
-    KEYS.dropRight(1).forall(password.contains)
-  }
+  def validate(password: Map[String, String]): Boolean = KEYS.dropRight(1).forall(password.contains)
 
-  def validateComplex(password: Map[String, String]): Boolean = {
+  def validateComplex(password: Map[String, String]): Boolean =
     KEYS
       .dropRight(1)
       .forall(_ match {
-        case "byr" => validYear(password.get("byr").getOrElse(""), 1920, 2002)
-        case "iyr" => validYear(password.get("iyr").getOrElse(""), 2010, 2020)
-        case "eyr" => validYear(password.get("eyr").getOrElse(""), 2020, 2030)
+        case "byr" => validYear(password.getOrElse("byr", ""), 1920, 2002)
+        case "iyr" => validYear(password.getOrElse("iyr", ""), 2010, 2020)
+        case "eyr" => validYear(password.getOrElse("eyr", ""), 2020, 2030)
         case "hgt" =>
-          password.get("hgt").getOrElse("") match {
+          password.getOrElse("hgt", "") match {
             case HEIGHT(ht, unit) if "cm".equals(unit) => ht.toInt >= 150 && ht.toInt <= 193
             case HEIGHT(ht, unit) if "in".equals(unit) => ht.toInt >= 59 && ht.toInt <= 76
             case _ => false
           }
         case "hcl" =>
-          password.get("hcl").getOrElse("") match {
+          password.getOrElse("hcl", "") match {
             case HAIR_COLOR(hcl) => hcl.length == 6
             case _ => false
           }
-        case "ecl" => EYE_COLORS.contains(password.get("ecl").getOrElse(""))
-        case "pid" => PASSPORT.matches(password.get("pid").getOrElse(""))
+        case "ecl" => EYE_COLORS.contains(password.getOrElse("ecl", ""))
+        case "pid" => PASSPORT.matches(password.getOrElse("pid", ""))
         case _ => true
       })
-  }
 
   def validYear(string: String, min: Int, max: Int): Boolean = string match {
     case YEAR(year) => year.toInt >= min && year.toInt <= max
     case _ => false
   }
 
-  def parsePasswords(lines: Seq[String], validator: Validator): Long = {
+  def parsePasswords(lines: Seq[String], validator: Validator): Long =
     if (validator(lines.foldLeft(Map[String, String]())(_ ++ password2map(_)))) 1L else 0L
-  }
 
-  def password2map(password: String): Map[String, String] = {
+  def password2map(password: String): Map[String, String] =
     password.split(" ").map(kvp => kvp.split(":")).map(kvp => kvp(0) -> kvp(1)).toMap
-  }
 
   def solvePart1: Long = countValidPasswords(input, validate)
 
