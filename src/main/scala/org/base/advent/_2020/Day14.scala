@@ -1,9 +1,8 @@
 package org.base.advent._2020
 
-import java.math.BigInteger
-
 import org.apache.commons.lang3.StringUtils
 import org.base.advent.Reader._
+import org.base.advent.util.Util._
 
 /**
   * <b>Part 1</b>
@@ -186,8 +185,6 @@ class Day14 {
 
   private def writeToAddr(maskMemory: Mem, address: Long, bits: String) =
     (maskMemory._1, maskMemory._2 + (address -> bits2long(bits)))
-
-  private def bits2long(bits: String): Long = new BigInteger(bits, 2).longValue()
 
   private def toBits(value: Long): Seq[(String, Int)] =
     StringUtils
