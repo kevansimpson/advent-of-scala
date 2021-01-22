@@ -94,19 +94,16 @@ class Day03 {
 
   def compareSlopes(forest: Grid): Long = slopes.foldLeft(1L)(_ * tobogganTrees(forest, _))
 
-  def tobogganTrees(forest: Grid, slope: (Int, Int)): Long = {
-    var treesHit = 0
-    var point = new Point(0, 0)
-    while (point.y < forest.height) {
-      point = point.move(slope._1, slope._2)
-      val modX = point.x % forest.width
-      val modY = point.y % forest.height
-      if (isTree(forest, modX, modY)) treesHit += 1
+  def tobogganTrees(forest: Grid, slope: (Int, Int), point: Point = Point.ORIGIN, treesHit: Long = 0L): Long = {
+    if (point.y >= forest.height) treesHit
+    else {
+      val next = point.move(slope._1, slope._2)
+      val hit = if (isTree(forest, next.x % forest.width, next.y % forest.height)) 1 else 0
+      tobogganTrees(forest, slope, next, treesHit + hit)
     }
-    treesHit
   }
 
-  def isTree(forest: Grid, x: Int, y: Int): Boolean = "#".equals(forest.area(y)(x))
+  def isTree(forest: Grid, x: Int, y: Int): Boolean = "#".equals(forest.get(x, y))
 
   def solvePart1: Long = tobogganTrees(theForest, (3, 1))
 

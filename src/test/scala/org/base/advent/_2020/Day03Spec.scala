@@ -2,7 +2,7 @@ package org.base.advent._2020
 
 import org.base.advent.AdventSpec
 import org.base.advent._2020.Day03Spec.Environment
-import org.base.advent.util.Grid
+import org.base.advent.util.{Grid, Util}
 import org.mockito.scalatest.IdiomaticMockito
 
 object Day03Spec extends IdiomaticMockito {
@@ -20,7 +20,7 @@ object Day03Spec extends IdiomaticMockito {
         |#.##...#...
         |#...##....#
         |.#..#...#.#""".stripMargin
-    val forest: Grid = Grid(example1.split("\n").toSeq)
+    val forest: Grid = Grid(Util.split(example1))
   }
 }
 

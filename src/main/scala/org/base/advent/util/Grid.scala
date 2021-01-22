@@ -2,13 +2,13 @@ package org.base.advent.util
 
 case class Grid(area: Array[Array[String]], height: Int, width: Int) {
 
-  def get(x: Int, y: Int): String = row(y).apply(x)
+  def get(x: Int, y: Int): String = row(y)(x)
 
   def get(pt: Point): String = get(pt.x, pt.y)
 
-  def row(y: Int): Array[String] = area.apply(y)
+  def row(y: Int): Array[String] = area(y)
 
-  def column(x: Int): Array[String] = (0 until height).map(row).map(_.apply(x)).toArray
+  def column(x: Int): Array[String] = (0 until height).map(row).map(_(x)).toArray
 
   def in(pt: Point): Boolean = pt.x >= 0 && pt.x < width && pt.y >= 0 && pt.y < height
 
@@ -36,7 +36,7 @@ object Grid {
     val width = rows.head.length
     val grid = Array.ofDim[String](height, width)
     rows.zipWithIndex.foreach {
-      case (row, y) => row.split("").zipWithIndex.foreach { case (col, x) => grid.apply(y).update(x, col) }
+      case (row, y) => row.split("").zipWithIndex.foreach { case (col, x) => grid(y).update(x, col) }
     }
 
     Grid(grid, height, width)
