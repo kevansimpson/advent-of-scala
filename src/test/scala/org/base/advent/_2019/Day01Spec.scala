@@ -13,13 +13,13 @@ object Day01Spec extends IdiomaticMockito {
 class Day01Spec extends AdventSpec {
   "Day01" when {
     "practicing examples" should {
-      "foo 1" in new Environment {
+      "calculating required fuel" in new Environment {
         day.requiredFuel(12) shouldEqual 2
         day.requiredFuel(14) shouldEqual 2
         day.requiredFuel(1969) shouldEqual 654
         day.requiredFuel(100756) shouldEqual 33583
       }
-      "foo 2" in new Environment {
+      "include fuel for fuel" in new Environment {
         day.fuelFuel(12) shouldEqual 2
         day.fuelFuel(14) shouldEqual 2
         day.fuelFuel(1969) shouldEqual 966

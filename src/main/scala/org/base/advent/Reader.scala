@@ -14,4 +14,8 @@ object Reader {
   def readLongs(filename: String): Seq[Long] = readLines(filename).map(_.toLong)
 
   def readCSVLines(filename: String): Seq[String] = readLines(filename).flatMap(line => line.split("\\s*,\\s*"))
+
+  def readCSVNumbers(filename: String): Seq[Int] = readCSVLines(filename).map(_.toInt)
+
+  def readCSVLongs(filename: String): Seq[Long] = readCSVLines(filename).map(_.toLong)
 }
