@@ -2,6 +2,8 @@ package org.base.advent
 
 import scala.io.Source
 
+import org.base.advent.util.Util.csv
+
 object Reader {
   def readFile(filename: String): String =
     Source.fromInputStream(getClass.getResourceAsStream(filename)).getLines().mkString
@@ -13,9 +15,9 @@ object Reader {
 
   def readLongs(filename: String): Seq[Long] = readLines(filename).map(_.toLong)
 
-  def readCSVLines(filename: String): Seq[String] = readLines(filename).flatMap(line => line.split("\\s*,\\s*"))
+  def readCSVLines(filename: String): Seq[Seq[String]] = readLines(filename).map(csv)
 
-  def readCSVNumbers(filename: String): Seq[Int] = readCSVLines(filename).map(_.toInt)
+  def readCSVNumbers(filename: String): Seq[Int] = readCSVLines(filename).head.map(_.toInt)
 
-  def readCSVLongs(filename: String): Seq[Long] = readCSVLines(filename).map(_.toLong)
+  def readCSVLongs(filename: String): Seq[Long] = readCSVLines(filename).head.map(_.toLong)
 }

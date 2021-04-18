@@ -7,9 +7,19 @@ case class Point(x: Int, y: Int) {
   def left(delta: Int = 1): Point = move(-delta, 0)
   def right(delta: Int = 1): Point = move(delta, 0)
 
-  def move(dx: Int, dy: Int): Point = Point(x + dx, y + dy)
+  def move(dx: Int = 1, dy: Int = 1): Point = Point(x + dx, y + dy)
+
+  def moveDir(direction: String, delta: Int = 1): Point = direction match {
+    case "U" | "N" => up(delta)
+    case "R" | "E" => right(delta)
+    case "D" | "S" => down(delta)
+    case "L" | "W" => left(delta)
+    case _ => this
+  }
 
   def cardinal: Seq[Point] = Seq(up(), right(), down(), left())
+
+  def manhattanDistance: Int = Point.manhattan(this)
 
   def surrounding(dist: Int = 1): Seq[Point] = {
     val (up1, right1, down1, left1): (Point, Point, Point, Point) = (up(dist), right(dist), down(dist), left(dist))
