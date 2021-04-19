@@ -1,7 +1,10 @@
 package org.base.advent._2019
 
+import scala.collection.mutable
+import scala.collection.mutable.ListBuffer
+
 import org.base.advent.Reader._
-import org.base.advent.util.Point
+import org.base.advent.util._
 
 /**
   * <b>Part 1</b>
@@ -119,18 +122,34 @@ class Day03 {
 
   def untangle(tangledWires: Tangled): Seq[WirePath] = tangledWires.map(wirePath)
 
-  // R8,U5,L5,D3
   def wirePath(wire: Seq[String]): WirePath = {
+    val path: ListBuffer[Point] = ListBuffer[Point]()
+    val steps: mutable.Map[Point, Int] = new mutable.HashMap[Point, Int]()
+    var pt = Point.ORIGIN
+    var count = 0
+    for (w <- wire) {
+      val dir = w.substring(0, 1)
+      val dist = w.substring(1).toInt
+      for (_ <- 1 to dist) {
+        pt = pt.moveDir(dir)
+        path += pt
+        count += 1
+        if (!steps.contains(pt)) steps.put(pt, count)
+      }
+    }
+    WirePath(pt, path.toSeq, steps.toMap)
+  }
+
+  def wirePathFunctionalAndSlower(wire: Seq[String]): WirePath = {
     wire
       .foldLeft((0, WirePath()))((result: (Int, WirePath), w: String) => {
         val (count, wp) = result
-        val dir = w.substring(0, 1)
         val dist = w.substring(1).toInt
-        val path = (1 to dist).map(wp.point.moveDir(dir, _))
-        val map = path
-          .map(pt => if (!wp.steps.contains(pt)) pt -> (count + path.indexOf(pt) + 1) else Point.ORIGIN -> 0)
+        val path = (1 to dist).map(wp.point.moveDir(w.substring(0, 1), _))
+        val map = path.zipWithIndex
+          .filter(ptIx => !wp.steps.contains(ptIx._1))
+          .map(ptIx => ptIx._1 -> (count + ptIx._2 + 1))
           .toMap
-          .-(Point.ORIGIN)
         (count + dist, WirePath(path.last, wp.path ++ path, wp.steps ++ map))
       })
       ._2

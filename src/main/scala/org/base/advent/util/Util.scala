@@ -16,4 +16,12 @@ object Util {
     else a.foldLeft(MinMax(a.head, a.head))((result, e) => MinMax(math.min(result.min, e), math.max(result.max, e)))
 
   def split(string: String): Seq[String] = string.stripMargin.split("\n").toSeq
+
+  def time[R](methodId: String = "???", block: => R): R = {
+    val t0 = System.nanoTime()
+    val result = block // call-by-name
+    val t1 = System.nanoTime()
+    println(s"$methodId elapsed time: ${t1 - t0} ns")
+    result
+  }
 }

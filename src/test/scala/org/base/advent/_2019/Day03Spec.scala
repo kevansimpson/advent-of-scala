@@ -20,11 +20,11 @@ object Day03Spec extends IdiomaticMockito {
 class Day03Spec extends AdventSpec {
   "Day03" when {
     "practicing examples" should {
-      "foo 1" in new Environment {
+      "find closest intersection" in new Environment {
         day.closestIntersection(example1) shouldEqual 159
         day.closestIntersection(example2) shouldEqual 135
       }
-      "foo 2" in new Environment {
+      "take fewest steps" in new Environment {
         day.fewestSteps(example1) shouldEqual 610
         day.fewestSteps(example2) shouldEqual 410
       }
