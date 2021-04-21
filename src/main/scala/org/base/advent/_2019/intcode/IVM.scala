@@ -11,4 +11,10 @@ object IVM {
     val nvo = for (noun <- 0L to 99L; verb <- 0L to 99L) yield (noun, verb, restoreGravityAssist(codes, noun, verb))
     nvo.filter(_._3 == 19690720L).map(output => 100L * output._1 + output._2).head
   }
+
+  def diagnosticTests(codes: Seq[Long]): Long = {
+    val p = Program(codes, Some(1))
+    p.run
+    p.output.get
+  }
 }
