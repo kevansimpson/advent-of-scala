@@ -17,4 +17,10 @@ object IVM {
     p.run
     p.output.get
   }
+
+  def diagnosticSysId5(codes: Seq[Long]): Long = {
+    val p = Program(codes, Some(5))
+    p.run
+    p.output.get
+  }
 }

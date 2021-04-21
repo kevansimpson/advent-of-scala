@@ -17,7 +17,7 @@ class Day05Spec extends AdventSpec {
         day.solvePart1 shouldEqual 13285749
       }
       "answer part 2" in new Environment {
-//        day.solvePart2 shouldEqual 130933530
+        day.solvePart2 shouldEqual 5000972
       }
     }
   }

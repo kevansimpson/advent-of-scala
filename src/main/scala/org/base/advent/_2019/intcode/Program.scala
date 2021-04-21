@@ -32,6 +32,10 @@ class Program(val intcode: Array[Long], var input: Option[Long] = None) {
         case 2 => multiply()
         case 3 => takeInput()
         case 4 => setOutput()
+        case 5 => jumpYes()
+        case 6 => jumpNo()
+        case 7 => lessThan()
+        case 8 => equalTo()
         case 99 =>
           move()
           done = true
@@ -45,13 +49,9 @@ class Program(val intcode: Array[Long], var input: Option[Long] = None) {
     move(delta + 1)
   }
 
-  def move(distance: Int = 1): Unit = {
-//    println(s"index b4 $index")
-    index += distance
-//    println(s"index @@ $index")
-  }
+  def move(distance: Int = 1): Unit = index += distance
 
-  // operators            3,225,1,225,6,6,1100,1,238,225,104
+  // operators
 
   def add()(implicit modes: Seq[Int]): Unit =
     updateCode(readAt(1, 0) + readAt(2, 1), 3)
@@ -59,15 +59,29 @@ class Program(val intcode: Array[Long], var input: Option[Long] = None) {
   def multiply()(implicit modes: Seq[Int]): Unit =
     updateCode(readAt(1, 0) * readAt(2, 1), 3)
 
-  def takeInput(): Unit = {
-    updateCode(input.get, 1)
-  }
+  def takeInput(): Unit = updateCode(input.get, 1)
 
   def setOutput()(implicit modes: Seq[Int]): Unit = {
-//    println(output)
     output = Some(readAt(1, 0).toInt)
-    if (output.get != 0) println(output)
     move(2)
+  }
+
+  def jumpYes()(implicit modes: Seq[Int]): Unit = {
+    if (readAt(1, 0) != 0) index = readAt(2, 1).toInt
+    else move(3)
+  }
+
+  def jumpNo()(implicit modes: Seq[Int]): Unit = {
+    if (readAt(1, 0) == 0) index = readAt(2, 1).toInt
+    else move(3)
+  }
+
+  def lessThan()(implicit modes: Seq[Int]): Unit = {
+    updateCode(if (readAt(1, 0) < readAt(2, 1)) 1 else 0, 3)
+  }
+
+  def equalTo()(implicit modes: Seq[Int]): Unit = {
+    updateCode(if (readAt(1, 0) == readAt(2, 1)) 1 else 0, 3)
   }
 }
 

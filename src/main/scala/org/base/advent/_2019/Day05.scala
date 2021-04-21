@@ -116,9 +116,7 @@ import org.base.advent._2019.intcode.IVM
 class Day05 {
   private lazy val input = readCSVLongs("/2019/input05.txt")
 
-  def foo: Long = input.size
-
   def solvePart1: Long = IVM.diagnosticTests(input)
 
-  def solvePart2: Long = foo
+  def solvePart2: Long = IVM.diagnosticSysId5(input)
 }
