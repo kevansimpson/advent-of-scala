@@ -131,76 +131,50 @@ import org.base.advent.Reader._
 class Day10 {
   private lazy val input = readNumbers("/2020/input10.txt")
 
-  def joltDiffs(adapters: Seq[Int]): Seq[Int] =
-    adapters
-      .:+(adapters.max + 3)
-      .sorted
-      .foldLeft(Seq.empty[Int])((result, value) =>
-        value - result.head match {
-          case 1 => Seq(value, 1 + result(1), result(2))
-          case 3 => Seq(value, result(1), 1 + result(2))
-          case _ => Seq(value, result(1), result(2))
-        }
-      )
-
-  def joltProduct(adapters: Seq[Int]): Int = joltDiffs(adapters).product
-
-  def distinctArrangements(adapters: Seq[Int]): Long = part2(adapters.+:(0).:+(adapters.max + 3).sorted)
-
-  // copied from https://github.com/blu3r4y/AdventOfLanguages2020/blob/main/src/day10.scala
-  def part2(jolts: Seq[Int]): Long = {
-    val diffs = diff(jolts)
-    val lengths = consecutive(diffs)
-    val perms = lengths.map(permutations)
-    perms.map(_.toLong).product
-  }
-
-  def consecutive(seq: Seq[Int]): Seq[Int] = for (values <- split(seq) if values.head == 1) yield values.length
-
-  def permutations(n: Int): Int = if (n < 2) 1 else tribonacci(n + 2)
-
-  def tribonacci(n: Int): Int = {
-    n match {
-      case 0 => 0
-      case 1 => 0
-      case 2 => 1
-      case _ => tribonacci(n - 1) + tribonacci(n - 2) + tribonacci(n - 3)
-    }
-  }
-
-  def diff(seq: Seq[Int]): Seq[Int] = (seq.drop(1) zip seq).map(t => t._1 - t._2)
-
-  def split(seq: Seq[Int]): List[List[Int]] = {
-    // itertools.groupby in Scala (https://stackoverflow.com/a/4763086/927377)
-    seq.foldRight(List[List[Int]]()) { (e, acc) =>
-      acc match {
-        case (`e` :: xs) :: fs => (e :: e :: xs) :: fs
-        case _ => List(e) :: acc
+  private def countJoltDiffs(adapters: Seq[Int]): Seq[Int] =
+    adapters.:+(adapters.max + 3).sorted.foldLeft(Seq(0, 0, 0)) ((result, value) =>
+      value - result.head match {
+        case 1 => Seq(value, 1 + result(1), result(2) )
+        case 3 => Seq(value, result(1), 1 + result(2) )
+        case _ => Seq(value, result(1), result(2) )
       }
-    }
+    ).drop(1)
+
+  def joltProduct(adapters: Seq[Int]): Int = countJoltDiffs(adapters).product
+
+  private def joltDiffs(adapters: Seq[Int]): String =
+    adapters.:+(adapters.max + 3).sorted.foldLeft(Seq(0)) ((result, value) => {
+      result.:+(value - result.head).drop(1).+:(value)
+    }).drop(1).mkString
+
+  /**
+   * a = # of four 1's in a row
+   * b = # of three 1's in a row (surrounded by 3's)
+   * c = # of two 1's in a row (surrounded by 3's)
+   * d = # of one 1's (surrounded by 3's)
+   */
+  private def countPatterns(diffs: String): Seq[Long] =
+    Seq(
+      countSinglePattern(diffs, "1111"),
+      countSinglePattern(diffs, "31113"),
+      countSinglePattern(diffs, "3113"),
+      countSinglePattern(diffs, "313"))
+
+  private def countSinglePattern(diffs: String, pattern: String): Long = {
+    val index = diffs.indexOf(pattern)
+    if (index >= 0) 1L + countSinglePattern(diffs.substring(index + 1), pattern) else 0L
   }
 
-  // my accurate but time consuming solutions
-  def distinctArrangements2(adapters: Seq[Int]): Long = {
-    val max = adapters.max + 3
-    val sortedAdapters = adapters.sorted.:+(max)
-    arrange(sortedAdapters, max)
-  }
+  private def pow(num: Long, exp: Long): Long =
+    if (exp == 0) 1L else num * pow(num, exp - 1L)
 
-  def arrange(jolts: Seq[Int], max: Int, adapter: Int = 0): Long = {
-    if (adapter >= max) 1
-    else {
-      jolts.filter(j => j >= (adapter + 1) && j <= (adapter + 3)).map(next => arrange(jolts, max, next)).sum
-    }
-  }
-
-  def isValidArrangement(codes: Seq[Int], index: Int = 0, value: Int = 0): Boolean = {
-    if (index >= codes.length) true
-    else
-      codes(index) - value match {
-        case 1 | 2 | 3 => isValidArrangement(codes, index + 1, codes(index))
-        case _ => false
-      }
+  def distinctArrangements(adapters: Seq[Int]): Long = {
+    val diffs = joltDiffs(adapters)
+    val counts = countPatterns(diffs)
+    val a = pow(7, counts.head)
+    val b = pow(4, counts(1))
+    val c = pow(2, counts(2))
+    a * b * c * counts(3)
   }
 
   def solvePart1: Long = joltProduct(input)

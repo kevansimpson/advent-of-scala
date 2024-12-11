@@ -141,7 +141,9 @@ class Day08 {
             case "nop" => gameOn(code, 1 + index, accumulator, visited + index)
             case "acc" => gameOn(code, 1 + index, accumulator + arg.toInt, visited + index)
             case "jmp" => gameOn(code, arg.toInt + index, accumulator, visited + index)
+            case _ => throw new RuntimeException("Day08, 2020")
           }
+        case _ => throw new RuntimeException("Day08, 2020")
       }
 
   def solvePart1: Long = gameOn(input)._1

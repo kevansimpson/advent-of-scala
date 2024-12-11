@@ -93,7 +93,7 @@ import org.base.advent.util.Point
 class Day12 {
   private lazy val input = readLines("/2020/input12.txt")
 
-  type Dir = (Point, Int)
+  private type Dir = (Point, Int)
 
   private val Instruction = "([NSEWLRF])(\\d+)".r
 
@@ -123,7 +123,9 @@ class Day12 {
                 case 270 => (shipWP._1, Point(-1 * shipWP._2.y, shipWP._2.x))
               }
             case "F" => (shipWP._1.move(dist * shipWP._2.x, dist * shipWP._2.y), shipWP._2)
+            case _ => throw new RuntimeException("Day12, 2020")
           }
+        case _ => throw new RuntimeException("Day12, 2020")
       }
     })
 
@@ -148,7 +150,9 @@ class Day12 {
               case 2 => (loc._1.down(distance.toInt), loc._2)
               case 3 => (loc._1.left(distance.toInt), loc._2)
             }
+          case _ => throw new RuntimeException("Day12, 2020")
         }
+      case _ => throw new RuntimeException("Day12, 2020")
     }
 
   def solvePart1: Long = followDirections(input)

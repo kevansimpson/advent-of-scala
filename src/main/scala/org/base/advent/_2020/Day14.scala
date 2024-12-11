@@ -134,8 +134,8 @@ class Day14 {
   private lazy val MaskDef = "mask = (.+)".r
   private lazy val WriteValue = "mem\\[(\\d+)] = (\\d+)".r
 
-  type Mem = (String, Map[Long, Long])
-  type WriteMem = (Mem, Long, Long) => Mem
+  private type Mem = (String, Map[Long, Long])
+  private type WriteMem = (Mem, Long, Long) => Mem
 
   def dockFerry(program: Seq[String], writeMem: WriteMem = writeValue): Long =
     program
@@ -143,13 +143,14 @@ class Day14 {
         line match {
           case MaskDef(mask) => (mask, maskMemory._2)
           case WriteValue(address, value) => writeMem(maskMemory, address.toLong, value.toLong)
+          case _ => throw new RuntimeException("Day14, 2020")
         }
       })
       ._2
       .values
       .sum
 
-  def writeValue(maskMemory: Mem, address: Long, value: Long): Mem =
+  private def writeValue(maskMemory: Mem, address: Long, value: Long): Mem =
     writeToAddr(
       maskMemory,
       address,
@@ -178,7 +179,7 @@ class Day14 {
     (maskMemory._1, maskMemory._2 ++ resolveAddr(bits).map(_ -> value).toMap)
   }
 
-  def resolveAddr(address: String): Seq[Long] =
+  private def resolveAddr(address: String): Seq[Long] =
     if (address.contains("X"))
       resolveAddr(address.replaceFirst("X", "0")) ++ resolveAddr(address.replaceFirst("X", "1"))
     else Seq(bits2long(address))

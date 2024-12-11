@@ -112,7 +112,7 @@ class Day16 {
     departures.filter(name => regex.matches(name._1)).values.map(_.toLong).product
   }
 
-  def resolveColumns(colMap: Map[String, Seq[Int]], result: Map[String, Int] = Map.empty): Map[String, Int] =
+  private def resolveColumns(colMap: Map[String, Seq[Int]], result: Map[String, Int] = Map.empty): Map[String, Int] =
     if (colMap.isEmpty) result
     else {
       val singleRest = colMap.groupBy(_._2.size == 1)
@@ -138,12 +138,13 @@ object Day16 {
 
   private val RuleDef = "([\\w ]+): (\\d+)-(\\d+) or (\\d+)-(\\d+)".r
 
-  def readDocument(input: Seq[String]): Document = {
+  private def readDocument(input: Seq[String]): Document = {
     val (rawRules, rawTix) = input.span(_.nonEmpty)
     val (myTix, nearby) = rawTix.tail.span(_.nonEmpty)
     val rules = rawRules.map {
       case RuleDef(desc, a1, a2, b1, b2) =>
         Rule(desc, Seq(Range.inclusive(a1.toInt, a2.toInt), Range.inclusive(b1.toInt, b2.toInt)))
+      case _ => throw new RuntimeException("Day16, 2020")
     }
 
     Document(rules, readTix(myTix(1)), nearby.slice(2, nearby.size).map(readTix))

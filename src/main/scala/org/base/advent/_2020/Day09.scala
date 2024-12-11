@@ -82,16 +82,16 @@ import org.base.advent.Reader._
   * <b>What is the encryption weakness in your XMAS-encrypted list of numbers?</b>
   */
 class Day09 {
-  private lazy val input = readNumbers("/2020/input09.txt")
+  private lazy val input = readLongs("/2020/input09.txt")
 
-  def decodeXmas(codes: Seq[Int], preamble: Int = 25, index: Int = 0): Int = {
+  def decodeXmas(codes: Seq[Long], preamble: Int = 25, index: Int = 0): Long = {
     val current = preamble + index
     val target = codes(current)
     val pairs = codes.slice(index, current).combinations(2).toSeq
     if (pairs.map(_.sum).count(_ == target) > 0) decodeXmas(codes, preamble, index + 1) else target
   }
 
-  def decryptXmas(codes: Seq[Int], preamble: Int = 25): Long = {
+  def decryptXmas(codes: Seq[Long], preamble: Int = 25): Long = {
     val target = decodeXmas(codes, preamble)
     val longCodes = codes.map(_.toLong)
     val range = (4 to 17).map(findRange(longCodes, target, 0, _)).filter(_.nonEmpty).head

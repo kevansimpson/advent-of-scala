@@ -4,6 +4,8 @@ import org.base.advent.Reader._
 import org.base.advent.util.Grid
 import org.base.advent.util.Util._
 
+import scala.annotation.{nowarn, tailrec}
+
 /**
   * <b>Part 1</b>
   * The high-speed train leaves the forest and quickly carries you south. You can even see a desert in the distance!
@@ -290,6 +292,7 @@ import org.base.advent.util.Util._
 class Day20 {
   private lazy val input = readLines("/2020/input20.txt")
 
+  @unchecked
   private val TileId = "Tile (\\d+):".r
 
   def makeImage(satScans: Seq[String]): Long = {
@@ -325,7 +328,7 @@ class Day20 {
     xref.map(idMap => idMap._1 -> idMap._2.filter(_._1 < 4)).filter(_._2.size == 2).keys.map(_.toLong).product
   }
 
-  def toEdgeMap(images: Seq[String]): Map[Int, Seq[Long]] = {
+  private def toEdgeMap(images: Seq[String]): Map[Int, Seq[Long]] = {
     val tiles = readTiles(images)
     val edgeMap = tiles.map(idTile => {
       val edgeStr = edges(idTile._2)
@@ -335,9 +338,10 @@ class Day20 {
     edgeMap
   }
 
-  def readTiles(images: Seq[String], tiles: Map[Int, Tile] = Map.empty[Int, Tile]): Map[Int, Tile] = {
+  @tailrec
+  private def readTiles(images: Seq[String], tiles: Map[Int, Tile] = Map.empty[Int, Tile]): Map[Int, Tile] = {
     val (next, rest) = images.span(_.nonEmpty)
-    val TileId(id) = next.head
+    val TileId(id) = next.head: @nowarn
     val newTiles = tiles + (id.toInt -> Tile(id.toInt, Grid(next.tail)))
     if (rest.isEmpty) newTiles else readTiles(rest.tail, newTiles)
   }

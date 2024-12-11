@@ -74,8 +74,8 @@ import org.base.advent.Reader._
 class Day07 {
   private lazy val input = readLines("/2020/input07.txt")
 
-  type BagQty = (String, Int)
-  type BagMap = Map[String, Seq[BagQty]]
+  private type BagQty = (String, Int)
+  private type BagMap = Map[String, Seq[BagQty]]
 
   private val RULE = "(.+) bags contain (.+)\\.".r
   private val BAGS = "(\\d+) (.+) bag[s]?".r
@@ -92,7 +92,7 @@ class Day07 {
     countBags(Seq(sgBag)) - 1 // don't count the shiny gold bag itself
   }
 
-  def countBags(rules: Seq[BagQty] = Seq.empty[BagQty])(implicit bagMap: BagMap): Int = {
+  private def countBags(rules: Seq[BagQty])(implicit bagMap: BagMap): Int = {
     if (rules.isEmpty) 1
     else
       rules
@@ -103,7 +103,7 @@ class Day07 {
         .sum
   }
 
-  def canHold(bag: BagQty, rules: Seq[BagQty] = Seq.empty[BagQty])(implicit bagMap: BagMap): Int = {
+  private def canHold(bag: BagQty, rules: Seq[BagQty])(implicit bagMap: BagMap): Int = {
     if (rules.isEmpty) 0
     else {
       val holds = rules.filter(bq => StringUtils.equals(bq._1, bag._1))
@@ -113,10 +113,12 @@ class Day07 {
     }
   }
 
-  def processLuggage(lines: Seq[String]): BagMap =
-    lines.map { case RULE(color, contents) => color -> splitBags(contents) }.toMap
+  private def processLuggage(lines: Seq[String]): BagMap =
+    lines.map {
+      case RULE(color, contents) => color -> splitBags(contents)
+      case _ => throw new RuntimeException("Day07, 2020")}.toMap
 
-  def splitBags(contents: String): Seq[(String, Int)] =
+  private def splitBags(contents: String): Seq[(String, Int)] =
     contents
       .split(", ")
       .toSeq

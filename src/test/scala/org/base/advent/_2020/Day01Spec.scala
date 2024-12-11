@@ -7,17 +7,17 @@ import org.mockito.scalatest.IdiomaticMockito
 object Day01Spec extends IdiomaticMockito {
   trait Environment {
     val day = new Day01
-    val example1 = Seq(1721, 979, 366, 299, 675, 1456)
+    val example1: Seq[Int] = Seq(1721, 979, 366, 299, 675, 1456)
   }
 }
 class Day01Spec extends AdventSpec {
   "Day01" when {
     "practicing examples" should {
       "find the two entries that sum to 2020" in new Environment {
-        day.findTwoEntriesWithTargetSum(example1, 2020) shouldEqual ((1721, 299))
+        day.findTwoEntriesWithTargetSum(example1, 2020) shouldEqual List(1721, 299)
       }
       "find the three entries that sum to 2020" in new Environment {
-        day.findThreeEntriesWithTargetSum(example1, 2020) shouldEqual ((979, 366, 675))
+        day.findThreeEntriesWithTargetSum(example1, 2020) shouldEqual List(979, 366, 675)
       }
     }
 

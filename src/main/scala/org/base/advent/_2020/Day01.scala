@@ -54,7 +54,7 @@ class Day01 {
     entries
       .combinations(2)
       .filter(combo => (combo.head + combo(1)) == target)
-      .map { case Seq(x, y) => Seq(x, y) }
+      .map { case Seq(x, y) => Seq(x, y); case _ => throw new RuntimeException("Day01, 2020") }
       .toSeq
       .head
   }
@@ -63,7 +63,7 @@ class Day01 {
     entries
       .combinations(3)
       .filter(combo => (combo.head + combo(1) + combo(2)) == target)
-      .map { case Seq(x, y, z) => Seq(x, y, z) }
+      .map { case Seq(x, y, z) => Seq(x, y, z); case _ => throw new RuntimeException("Day01, 2020") }
       .toSeq
       .head
 
